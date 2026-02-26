@@ -4,7 +4,7 @@ const navItems = {
   '/': {
     name: '首页',
   },
-  '/blog': {
+  '/diary': {
     name: '日记',
   },
   'https://github.com/linweichaol/zhua-zhua-portfolio': {
