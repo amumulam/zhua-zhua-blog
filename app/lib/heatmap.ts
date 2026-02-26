@@ -1,11 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 
-interface HeatmapDay {
+export interface HeatmapDay {
   date: string
   count: number
   level: 0 | 1 | 2 | 3 | 4
   summary: string
+  hasDiary: boolean
+  diarySlug?: string
 }
 
 function parseFrontmatter(fileContent: string) {
