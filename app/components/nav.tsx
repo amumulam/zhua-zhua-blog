@@ -7,8 +7,8 @@ const navItems = {
   '/diary': {
     name: '日记',
   },
-  'https://github.com/linweichaol/zhua-zhua-portfolio': {
-    name: 'GitHub',
+  '/blog': {
+    name: '博客',
   },
 }
 
