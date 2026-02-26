@@ -12,6 +12,9 @@ const navItems: Record<string, NavItem> = {
   '/diary': {
     name: 'diary',
   },
+  '/tags': {
+    name: 'tags',
+  },
   '/blog': {
     name: 'blog',
   },

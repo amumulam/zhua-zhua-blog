@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/diary/utils'
+import Link from 'next/link'
 
 const baseUrl = process.env.GITHUB_PAGES
   ? 'https://amumulam.github.io/zhua-zhua-blog'
@@ -90,11 +91,27 @@ export default async function Blog({ params }) {
       <h1 className="title font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
+      <div className="flex justify-between items-center mt-2 mb-4 text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
+      
+      {/* 标签显示 */}
+      {post.metadata.tags && post.metadata.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-8">
+          {post.metadata.tags.map(tag => (
+            <Link
+              key={tag}
+              href={`/tags/${encodeURIComponent(tag)}`}
+              className="px-2.5 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+            >
+              #{tag}
+            </Link>
+          ))}
+        </div>
+      )}
+      
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
