@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/diary/utils'
-import { baseUrl } from 'app/sitemap'
+
+const baseUrl = process.env.GITHUB_PAGES
+  ? 'https://amumulam.github.io/zhua-zhua-blog'
+  : 'https://zhua-zhua-blog.vercel.app'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
