@@ -1,6 +1,6 @@
 'use client'
 
-import ActivityCalendar, { Activity } from 'react-activity-calendar'
+import { ActivityCalendar, Activity } from 'react-activity-calendar'
 import { useState } from 'react'
 
 interface HeatmapDay {
