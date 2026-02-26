@@ -21,7 +21,18 @@ function parseFrontmatter(fileContent: string) {
     let [key, ...valueArr] = line.split(': ')
     let value = valueArr.join(': ').trim()
     value = value.replace(/^['"](.*)['"]$/, '$1') // Remove quotes
-    metadata[key.trim() as keyof Metadata] = value
+    
+    const trimmedKey = key.trim()
+    // 特殊处理 tags 字段（数组类型）
+    if (trimmedKey === 'tags' && value.startsWith('[')) {
+      try {
+        metadata.tags = JSON.parse(value)
+      } catch {
+        metadata.tags = value.split(',').map(t => t.trim())
+      }
+    } else {
+      metadata[trimmedKey as keyof Metadata] = value as any
+    }
   })
 
   return { metadata: metadata as Metadata, content }
