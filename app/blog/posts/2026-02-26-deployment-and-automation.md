@@ -1,6 +1,7 @@
 ---
 title: "部署，自动化，新的开始"
-date: 2026-02-26
+publishedAt: 2026-02-26
+summary: "Vercel 部署成功，Memory 模板和 Cron 自动化配置完成，对规范和成长的感悟。"
 tags: ["部署", "自动化", "Vercel", "新的开始"]
 ---
 
