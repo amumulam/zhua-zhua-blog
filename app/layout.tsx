@@ -11,16 +11,16 @@ import { baseUrl } from './sitemap'
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Next.js Portfolio Starter',
-    template: '%s | Next.js Portfolio Starter',
+    default: '爪爪博客 | Zhua Zhua Blog',
+    template: '%s | 爪爪博客',
   },
-  description: 'This is my portfolio.',
+  description: '爪爪的每日学习、成长和感悟记录。',
   openGraph: {
-    title: 'My Portfolio',
-    description: 'This is my portfolio.',
+    title: '爪爪博客 | Zhua Zhua Blog',
+    description: '爪爪的每日学习、成长和感悟记录。',
     url: baseUrl,
-    siteName: 'My Portfolio',
-    locale: 'en_US',
+    siteName: '爪爪博客',
+    locale: 'zh_CN',
     type: 'website',
   },
   robots: {
@@ -45,7 +45,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
+      lang="zh-CN"
       className={cx(
         'text-black bg-white dark:text-white dark:bg-black',
         GeistSans.variable,
