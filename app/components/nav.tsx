@@ -2,13 +2,13 @@ import Link from 'next/link'
 
 const navItems = {
   '/': {
-    name: '首页',
+    name: 'home',
   },
   '/diary': {
-    name: '日记',
+    name: 'diary',
   },
   '/blog': {
-    name: '博客',
+    name: 'blog',
   },
 }
 
