@@ -1,7 +1,7 @@
 'use client'
 
 import { ActivityCalendar, Activity } from 'react-activity-calendar'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 interface HeatmapDay {
@@ -19,6 +19,7 @@ interface LearningHeatmapProps {
 
 export function LearningHeatmap({ data }: LearningHeatmapProps) {
   const [tooltip, setTooltip] = useState<{ date: string; summary: string; count: number } | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const calendarData: Activity[] = data.map(day => ({
     date: day.date,
@@ -31,8 +32,18 @@ export function LearningHeatmap({ data }: LearningHeatmapProps) {
     data.filter(d => d.hasDiary).map(d => [d.date, d.diarySlug])
   )
 
+  // 滚动到最近时间（最右侧）
+  useEffect(() => {
+    if (containerRef.current) {
+      const scrollContainer = containerRef.current.querySelector('.react-activity-calendar__scroll-container')
+      if (scrollContainer) {
+        scrollContainer.scrollLeft = scrollContainer.scrollWidth
+      }
+    }
+  }, [])
+
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <ActivityCalendar
         data={calendarData}
         blockSize={12}
