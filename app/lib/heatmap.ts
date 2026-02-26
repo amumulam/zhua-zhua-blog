@@ -34,12 +34,13 @@ function getLevel(count: number): 0 | 1 | 2 | 3 | 4 {
   return 4
 }
 
-function getDiarySummaries(date: string): { count: number; summaries: string[] } {
+function getDiarySummaries(date: string): { count: number; summaries: string[]; diarySlug?: string } {
   const diaryDir = path.join(process.cwd(), 'app', 'diary', 'posts')
   const files = fs.readdirSync(diaryDir).filter(f => f.endsWith('.md'))
   
   let count = 0
   let summaries: string[] = []
+  let diarySlug: string | undefined
 
   files.forEach(file => {
     const filePath = path.join(diaryDir, file)
@@ -48,6 +49,7 @@ function getDiarySummaries(date: string): { count: number; summaries: string[] }
     
     if (metadata.publishedAt === date) {
       count++
+      diarySlug = file.replace('.md', '')
       // 从 content 中提取第一段作为总结
       const firstParagraph = metadata.summary || content.split('\n')[0]?.substring(0, 50)
       if (firstParagraph) {
@@ -56,7 +58,7 @@ function getDiarySummaries(date: string): { count: number; summaries: string[] }
     }
   })
 
-  return { count, summaries }
+  return { count, summaries, diarySlug }
 }
 
 function getMemorySummaries(date: string): { count: number; summaries: string[] } {
@@ -110,7 +112,9 @@ export function generateHeatmapData(days = 365): HeatmapDay[] {
       date: dateStr,
       count: totalCount,
       level: getLevel(totalCount),
-      summary: summaries.join('\n') || '没有学习记录',
+      summary: summaries.join('\n') || 'No activity',
+      hasDiary: !!diaryData.diarySlug,
+      diarySlug: diaryData.diarySlug,
     })
   }
 

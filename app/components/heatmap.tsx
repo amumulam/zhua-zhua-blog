@@ -2,12 +2,15 @@
 
 import { ActivityCalendar, Activity } from 'react-activity-calendar'
 import { useState } from 'react'
+import Link from 'next/link'
 
 interface HeatmapDay {
   date: string
   count: number
   level: 0 | 1 | 2 | 3 | 4
   summary: string
+  hasDiary: boolean
+  diarySlug?: string
 }
 
 interface LearningHeatmapProps {
@@ -22,6 +25,11 @@ export function LearningHeatmap({ data }: LearningHeatmapProps) {
     count: day.count,
     level: day.level,
   }))
+
+  // 创建日期到日记的映射
+  const diaryMap = new Map(
+    data.filter(d => d.hasDiary).map(d => [d.date, d.diarySlug])
+  )
 
   return (
     <div className="relative">
@@ -43,6 +51,17 @@ export function LearningHeatmap({ data }: LearningHeatmapProps) {
             less: 'Less',
             more: 'More',
           },
+        }}
+        renderBlock={(block, activity) => {
+          const diarySlug = diaryMap.get(activity.date)
+          if (diarySlug) {
+            return (
+              <Link href={`/diary/${diarySlug}`} className="inline-block">
+                {block}
+              </Link>
+            )
+          }
+          return block
         }}
       />
       
