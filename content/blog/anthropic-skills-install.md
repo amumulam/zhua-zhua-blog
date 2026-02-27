@@ -283,13 +283,10 @@ ls -la pptx/scripts/
 技能通过 SKILL.md 中的 `description` 字段触发：
 
 ```yaml
-
-
 ---
 
 name: docx
 description: 文档创建、编辑、分析...使用场景：(1) 创建新文档...
-
 
 ---
 
