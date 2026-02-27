@@ -12,13 +12,13 @@ export function BlogPosts({ type = 'diary' }: BlogPostsProps) {
         slug: post.slug,
         title: post.metadata.title,
         publishedAt: post.metadata.publishedAt,
-        tags: post.metadata.tags,
+        tags: post.metadata.tags || [],
       }))
     : getSortedPosts().map(post => ({
         slug: post.slug,
         title: post.title,
         publishedAt: post.date,
-        tags: post.tags,
+        tags: post.tags || [],
       }))
 
   return (
