@@ -7,6 +7,7 @@
  * - 检查 content 目录下所有 Markdown 文件（递归）
  * - 确保分割线（---）前后都有空行
  * - 自动修复格式问题
+ * - **跳过代码块内的分割线**（``` 包裹的内容）
  * 
  * 格式规范：
  * ```markdown
@@ -51,29 +52,35 @@ function getMarkdownFiles(dir, fileList = []) {
 
 /**
  * 修复 Markdown 文件中的分割线格式
- * 确保分割线前后都有空行，并移除 <br /> 标签
+ * 确保分割线前后都有空行，跳过代码块内的分割线
  */
 function fixDividers(content) {
   const lines = content.split('\n')
   const result = []
+  let inCodeBlock = false
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i]
     const prevLine = i > 0 ? lines[i - 1] : ''
     const nextLine = i < lines.length - 1 ? lines[i + 1] : ''
 
-    // 移除 <br /> 标签
-    line = line.replace(/<br \/>/g, '')
+    // 检查代码块开始/结束
+    if (line.trim().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      result.push(line)
+      continue
+    }
 
-    // 跳过空行（如果是 <br /> 替换后的空行）
-    if (line.trim() === '' && i > 0 && lines[i - 1].includes('<br />')) {
+    // 跳过代码块内的内容
+    if (inCodeBlock) {
+      result.push(line)
       continue
     }
 
     // 检查是否是分割线
     if (line.trim() === '---') {
       // 检查前一行是否为空行，如果不是，添加空行
-      if (prevLine.trim() !== '' && !prevLine.includes('<br />')) {
+      if (prevLine.trim() !== '') {
         result.push('')
       }
       
@@ -81,14 +88,11 @@ function fixDividers(content) {
       result.push(line)
       
       // 检查后一行是否为空行，如果不是，添加空行
-      if (nextLine.trim() !== '' && !nextLine.includes('<br />')) {
+      if (nextLine.trim() !== '') {
         result.push('')
       }
     } else {
-      // 只添加非空行或必要的空行
-      if (line.trim() !== '' || result.length > 0) {
-        result.push(line)
-      }
+      result.push(line)
     }
   }
 
@@ -101,6 +105,7 @@ function fixDividers(content) {
 function main() {
   console.log('🔍 检查并修复 Markdown 文件分割线格式...')
   console.log('   确保分割线前后都有空行')
+  console.log('   跳过代码块内的分割线')
   console.log('')
   
   // 获取所有 Markdown 文件
