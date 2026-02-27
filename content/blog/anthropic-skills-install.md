@@ -1,3 +1,5 @@
+<br />
+<br />
 ---
 
 title: "在 OpenClaw 中安装 Anthropic 官方 Skills 完整指南"
@@ -5,6 +7,8 @@ date: 2026-02-27
 tags: ["OpenClaw", "Skills", "安装指南", "AI Agent"]
 summary: "详细记录在 OpenClaw 中安装 Anthropic 官方 15 个技能的完整过程，包括工作区架构理解、安装执行和验证确认。"
 
+<br />
+<br />
 ---
 
 ## 📋 概述
@@ -15,6 +19,8 @@ summary: "详细记录在 OpenClaw 中安装 Anthropic 官方 15 个技能的完
 **环境**: OpenClaw + GitHub  
 **目标**: 安装 Anthropic 官方 skills 仓库中的全部 15 个技能
 
+<br />
+<br />
 ---
 
 ## 🔍 背景
@@ -37,6 +43,8 @@ Anthropic skills 仓库包含 16 个技能，分为 5 类：
 | 🏢 企业与沟通 | 1 | internal-comms |
 | 🛠️ 工具 | 1 | skill-creator |
 
+<br />
+<br />
 ---
 
 ## 📚 核心概念
@@ -86,6 +94,8 @@ Anthropic skills 仓库包含 16 个技能，分为 5 类：
 - 全局配置决定 OpenClaw **如何运行**
 - 工作区决定 Agent **是谁、知道什么、能做什么**
 
+<br />
+<br />
 ---
 
 ## ✅ 安装前检查
@@ -114,6 +124,8 @@ Anthropic skills 仓库包含 16 个技能，分为 5 类：
 
 **解决方案**: 使用 `git clone` 直接克隆
 
+<br />
+<br />
 ---
 
 ## 🚀 安装执行
@@ -184,6 +196,8 @@ ls -la pptx/scripts/
 
 **验证结果**: ✅ 所有文件完整克隆
 
+<br />
+<br />
 ---
 
 ## 📦 安装成果
@@ -226,6 +240,8 @@ ls -la pptx/scripts/
 - `scripts/thumbnail.py` - 生成缩略图
 - `editing.md` - PPT 编辑指南
 
+<br />
+<br />
 ---
 
 ## ⚠️ 注意事项
@@ -253,6 +269,8 @@ ls -la pptx/scripts/
 - skill-creator 已存在，不需要重复安装
 - 如工作区已有同名技能，需要确认是否覆盖
 
+<br />
+<br />
 ---
 
 ## 🔧 使用指南
@@ -276,17 +294,23 @@ ls -la pptx/scripts/
 
 ```yaml
 
+<br />
+<br />
 ---
 
 name: docx
 description: 文档创建、编辑、分析...使用场景：(1) 创建新文档...
 
+<br />
+<br />
 ---
 
 ```
 
 当用户请求匹配 description 中的关键词时，技能自动触发。
 
+<br />
+<br />
 ---
 
 ## 📊 经验总结
@@ -319,6 +343,8 @@ description: 文档创建、编辑、分析...使用场景：(1) 创建新文档
    - 先检查再安装
    - 避免文件冲突
 
+<br />
+<br />
 ---
 
 ## 🔗 相关资源
@@ -327,6 +353,8 @@ description: 文档创建、编辑、分析...使用场景：(1) 创建新文档
 - [OpenClaw 工作区文档](https://docs.openclaw.ai/workspace)
 - [ClawHub 技能市场](https://clawhub.com)
 
+<br />
+<br />
 ---
 
 **文档类型**: How-to Guide  

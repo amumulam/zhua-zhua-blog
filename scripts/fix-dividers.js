@@ -5,12 +5,22 @@
  * 
  * 功能：
  * - 检查 content 目录下所有 Markdown 文件（递归）
- * - 确保分割线（---）前后都有两个换行符（空行）
+ * - 确保分割线（---）前有两个 <br /> 换行符
  * - 自动修复格式问题
+ * 
+ * 格式规范：
+ * ```markdown
+ * 上文内容<br />
+ * <br />
+ * ---
+ * 
+ * 下文内容
+ * ```
  * 
  * 使用方式：
  * - 手动运行：node scripts/fix-dividers.js
  * - Git commit 前自动触发
+ * - 构建前自动触发
  */
 
 const fs = require('fs')
@@ -41,7 +51,7 @@ function getMarkdownFiles(dir, fileList = []) {
 
 /**
  * 修复 Markdown 文件中的分割线格式
- * 确保分割线前后都有两个换行符
+ * 确保分割线前有两个 <br /> 换行符
  */
 function fixDividers(content) {
   const lines = content.split('\n')
@@ -50,22 +60,21 @@ function fixDividers(content) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     const prevLine = i > 0 ? lines[i - 1] : ''
-    const nextLine = i < lines.length - 1 ? lines[i + 1] : ''
 
     // 检查是否是分割线
     if (line.trim() === '---') {
-      // 检查前一行是否为空行，如果不是，添加空行
-      if (prevLine.trim() !== '') {
-        result.push('')
+      // 检查前一行是否已经有两个 <br />
+      const hasTwoBreaks = prevLine.includes('<br />') && 
+                          (i > 1 && lines[i - 2].includes('<br />'))
+      
+      // 如果没有两个 <br />，添加两个
+      if (!hasTwoBreaks) {
+        result.push('<br />')
+        result.push('<br />')
       }
       
       // 添加分割线
       result.push(line)
-      
-      // 检查后一行是否为空行，如果不是，添加空行
-      if (nextLine.trim() !== '') {
-        result.push('')
-      }
     } else {
       result.push(line)
     }
@@ -79,6 +88,8 @@ function fixDividers(content) {
  */
 function main() {
   console.log('🔍 检查并修复 Markdown 文件分割线格式...')
+  console.log('   确保分割线前有两个 <br /> 换行符')
+  console.log('')
   
   // 获取所有 Markdown 文件
   const markdownFiles = getMarkdownFiles(CONTENT_DIR)

@@ -1,3 +1,5 @@
+<br />
+<br />
 ---
 
 title: "MCPorter 配置飞书 MCP 完整指南"
@@ -5,6 +7,8 @@ date: 2026-02-27
 tags: ["MCPorter", "MCP", "飞书", "配置教程", "AI Agent"]
 summary: "详细讲解如何配置 MCPorter 并连接飞书 MCP 服务器，实现通过命令行和 AI Agent 调用飞书文档创建、编辑等能力。"
 
+<br />
+<br />
 ---
 
 ## 📋 概述
@@ -21,6 +25,8 @@ summary: "详细讲解如何配置 MCPorter 并连接飞书 MCP 服务器，实�
 - 已安装 MCPorter (`npm install -g mcporter`)
 - 有飞书账号并能访问飞书 MCP 配置平台
 
+<br />
+<br />
 ---
 
 ## 🔍 核心概念
@@ -49,6 +55,8 @@ summary: "详细讲解如何配置 MCPorter 并连接飞书 MCP 服务器，实�
 
 MCPorter 作为客户端调用飞书 MCP 服务器提供的工具，实现文档创建、编辑、搜索等功能。
 
+<br />
+<br />
 ---
 
 ## 🚀 配置步骤
@@ -69,6 +77,8 @@ MCPorter 作为客户端调用飞书 MCP 服务器提供的工具，实现文档
 
 **注意**: 服务器 URL 代表以当前用户身份调用飞书工具，请勿泄露。
 
+<br />
+<br />
 ---
 
 ### 步骤 2: 配置 MCPorter
@@ -110,6 +120,8 @@ mcporter config get feishu
 mcporter call --http-url https://mcp.feishu.cn/mcp/YOUR_ID feishu create_doc title="测试文档"
 ```
 
+<br />
+<br />
 ---
 
 ### 步骤 3: 验证配置
@@ -147,6 +159,8 @@ Feishu Cloud Docs MCP Tools:
   - share_doc - 分享文档
 ```
 
+<br />
+<br />
 ---
 
 ## 🔧 使用示例
@@ -205,6 +219,8 @@ mcporter call feishu add_comment \
   --content "这个部分需要补充更多信息"
 ```
 
+<br />
+<br />
 ---
 
 ## 🤖 在 AI Agent 中使用
@@ -233,6 +249,8 @@ AI: 好的，我正在为您创建飞书文档...
     链接：https://xxx.feishu.cn/docx/docXYZ789
 ```
 
+<br />
+<br />
 ---
 
 ## ⚠️ 注意事项
@@ -265,6 +283,8 @@ AI: 好的，我正在为您创建飞书文档...
 - 避免短时间内大量调用
 - 错误处理中添加重试逻辑
 
+<br />
+<br />
 ---
 
 ## 📊 常见问题
@@ -308,6 +328,8 @@ npm config get prefix
    mcporter call feishu create_doc ... --verbose
    ```
 
+<br />
+<br />
 ---
 
 ## 📝 经验总结
@@ -343,6 +365,8 @@ npm config get prefix
    - 飞书 MCP 主要支持文档场景
    - 其他功能（消息、日历）暂未支持
 
+<br />
+<br />
 ---
 
 ## 🔗 相关资源
@@ -352,6 +376,8 @@ npm config get prefix
 - [MCP 协议文档](https://modelcontextprotocol.io/)
 - [飞书开放平台](https://open.feishu.cn/)
 
+<br />
+<br />
 ---
 
 **文档类型**: How-to Guide  
