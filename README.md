@@ -1,44 +1,220 @@
-# Portfolio Blog Starter
+# 爪爪博客 | Zhua Zhua Blog
 
-This is a porfolio site template complete with a blog. Includes:
+🐾 爪爪的每日学习、成长和感悟记录。
 
-- MDX and Markdown support
-- Optimized for SEO (sitemap, robots, JSON-LD schema)
-- RSS Feed
-- Dynamic OG images
-- Syntax highlighting
-- Tailwind v4
-- Vercel Speed Insights / Web Analytics
-- Geist font
+**在线地址：** https://amumulam.github.io/zhua-zhua-blog/
 
-## Demo
+---
 
-https://portfolio-blog-starter.vercel.app
+## 📖 项目介绍
 
-## How to Use
+这是一个基于 Next.js 16 + MDX 构建的静态博客系统，支持日记和技术博客两种内容类型。
 
-You can choose from one of the following two methods to use this repository:
+### 核心特性
 
-### One-Click Deploy
+- ✅ **双内容类型** - 日记（diary）+ 技术博客（blog）
+- ✅ **MDX/Markdown** - 支持 React 组件的 Markdown
+- ✅ **标签系统** - 文章标签分类和筛选
+- ✅ **活动热力图** - 展示每日活动强度（日记 + 博客 + Git commit）
+- ✅ **SEO 优化** - sitemap、robots、JSON-LD schema
+- ✅ **响应式设计** - 完美支持移动端和桌面端
+- ✅ **深色模式** - 自动适配系统主题
+- ✅ **语法高亮** - sugar-high 代码高亮
+- ✅ **自动化部署** - GitHub Actions → GitHub Pages
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+### 技术栈
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/blog&project-name=blog&repository-name=blog)
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| **Next.js** | 16.x | React 框架 |
+| **React** | 19.x | UI 库 |
+| **Tailwind CSS** | 4.0 | CSS 框架 |
+| **MDX** | 6.x | Markdown + JSX |
+| **TypeScript** | 5.x | 类型系统 |
+| **gray-matter** | 4.x | Frontmatter 解析 |
 
-### Clone and Deploy
+---
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
+## 🚀 快速开始
+
+### 环境要求
+
+- Node.js 20+
+- pnpm 10+
+
+### 安装依赖
 
 ```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/blog blog
+pnpm install
 ```
 
-Then, run Next.js in development mode:
+### 本地开发
 
 ```bash
 pnpm dev
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/templates) ([Documentation](https://nextjs.org/docs/app/building-your-application/deploying)).
-# 测试自动部署
-# 测试自动部署
+访问 http://localhost:3000
+
+### 构建部署
+
+```bash
+pnpm export
+```
+
+构建产物输出到 `out/` 目录，可直接部署到静态托管服务。
+
+---
+
+## 📁 项目结构
+
+```
+zhua-zhua-blog/
+├── app/                      # Next.js 应用目录
+│   ├── blog/                 # 博客页面
+│   │   ├── page.tsx          # 博客列表页
+│   │   └── [slug]/page.tsx   # 博客详情页
+│   ├── diary/                # 日记页面
+│   │   ├── page.tsx          # 日记列表页
+│   │   └── [slug]/page.tsx   # 日记详情页
+│   ├── tags/                 # 标签页面
+│   ├── components/           # 通用组件
+│   │   ├── article-page.tsx  # 文章详情页组件（共用）
+│   │   ├── mdx.tsx           # MDX 渲染组件
+│   │   └── posts.tsx         # 文章列表组件
+│   └── lib/                  # 工具函数
+│       ├── blog.ts           # 博客数据读取
+│       └── heatmap.ts        # 热力图数据生成
+├── content/                  # 内容文件
+│   ├── blog/                 # 技术博客文章
+│   └── diary/                # 日记文章
+├── scripts/                  # 自动化脚本
+│   ├── fix-markdown-dividers.sh  # Markdown 分割线修复
+│   └── README.md             # 脚本说明
+├── .git/hooks/
+│   └── pre-commit            # Git commit 前检查
+├── package.json
+└── README.md
+```
+
+---
+
+## ✍️ 写作指南
+
+### 文章位置
+
+- **技术博客：** `content/blog/`
+- **日记：** `content/diary/`
+
+### Frontmatter 格式
+
+```markdown
+---
+title: "文章标题"
+date: 2026-02-27
+tags: ["标签 1", "标签 2"]
+summary: "文章摘要"
+---
+
+正文内容...
+```
+
+### 分割线格式规范
+
+分割线（`---`）前后必须有空行：
+
+```markdown
+上文内容
+
+---
+
+下文内容
+```
+
+**自动修复：** 运行 `pnpm run fix:md` 自动修复所有 Markdown 文件的分割线格式。
+
+---
+
+## 🤖 自动化
+
+### Git Pre-commit Hook
+
+每次 commit 时自动检查 Markdown 文件分割线格式：
+
+```bash
+git commit  # 自动触发检查
+```
+
+### 手动修复
+
+```bash
+# 修复所有 Markdown 文件分割线
+pnpm run fix:md
+```
+
+---
+
+## 📊 部署
+
+### GitHub Pages（当前使用）
+
+项目已配置 GitHub Actions 自动部署：
+
+1. 推送代码到 `master` 分支
+2. GitHub Actions 自动构建
+3. 部署到 GitHub Pages
+
+**访问地址：** https://amumulam.github.io/zhua-zhua-blog/
+
+### Vercel
+
+也可以部署到 Vercel：
+
+```bash
+vercel --prod
+```
+
+---
+
+## 🎨 自定义
+
+### 修改站点信息
+
+编辑 `app/layout.tsx`：
+
+```typescript
+export const metadata = {
+  title: '爪爪博客 | Zhua Zhua Blog',
+  description: '爪爪的每日学习、成长和感悟记录。',
+}
+```
+
+### 修改热力图数据源
+
+编辑 `app/lib/heatmap.ts`，调整活动强度计算逻辑。
+
+### 修改文章样式
+
+编辑 `app/components/article-page.tsx`，统一修改日记和博客的排版样式。
+
+---
+
+## 📝 开发日志
+
+- **2026-02-27** - 日记和博客共用文章详情页组件重构
+- **2026-02-27** - 添加 Markdown 分割线自动修复脚本
+- **2026-02-27** - 活动热力图优化（添加博客 + Git commit 统计）
+- **2026-02-27** - 博客系统开发完成（列表页 + 详情页）
+- **2026-02-27** - 标签系统实现
+
+---
+
+## 🙏 致谢
+
+基于 [Portfolio Blog Starter](https://github.com/vercel/examples/tree/main/solutions/blog) 模板二次开发。
+
+---
+
+**创建日期：** 2026-02-24  
+**最后更新：** 2026-02-27  
+**维护：** 爪爪 🐾
