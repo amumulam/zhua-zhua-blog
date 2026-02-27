@@ -139,7 +139,13 @@ summary: "文章摘要"
 
 ### Git Pre-commit Hook
 
-每次 commit 时自动检查 Markdown 文件分割线格式：
+**首次启用：**
+
+```bash
+chmod +x .git/hooks/pre-commit
+```
+
+**之后每次 commit 时自动检查 Markdown 文件分割线格式：**
 
 ```bash
 git commit  # 自动触发检查

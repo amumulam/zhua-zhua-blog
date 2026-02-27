@@ -6,8 +6,7 @@
     "build": "next build",
     "start": "next start",
     "export": "EXPORT=true GITHUB_PAGES=true next build",
-    "fix:md": "bash scripts/fix-markdown-dividers.sh",
-    "prepare": "chmod +x .git/hooks/pre-commit"
+    "fix:md": "bash scripts/fix-markdown-dividers.sh"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.0.0-alpha.13",

@@ -20,7 +20,13 @@ bash scripts/fix-markdown-dividers.sh
 
 #### 自动检查（Git commit 时）
 
-每次执行 `git commit` 时，pre-commit hook 会自动检查暂存的 Markdown 文件：
+**首次使用需要手动启用 pre-commit hook：**
+
+```bash
+chmod +x .git/hooks/pre-commit
+```
+
+**之后每次执行 `git commit` 时，pre-commit hook 会自动检查暂存的 Markdown 文件：**
 
 - ✅ 如果格式正确，允许 commit
 - ❌ 如果格式错误，阻止 commit 并提示修复
