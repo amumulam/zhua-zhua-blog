@@ -45,3 +45,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
           publish_branch: gh-pages
+      
+      - name: Wait for GitHub Pages
+        run: sleep 30
+      
+      - name: Verify Deployment
+        run: |
+          echo "Verifying deployment..."
+          curl -f -o /dev/null -s -w "HTTP Status: %{http_code}\n" https://amumulam.github.io/zhua-zhua-blog/ || exit 1
+          echo "Deployment verified successfully!"
