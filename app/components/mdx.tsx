@@ -48,9 +48,23 @@ function RoundedImage(props) {
   return <Image alt={props.alt} className="rounded-lg" {...props} />
 }
 
-function Code({ children, ...props }) {
-  let codeHTML = highlight(children)
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
+function Code({ children, className, ...props }) {
+  // 从 className 中提取语言，如 "language-bash" -> "bash"
+  const match = /language-(\w+)/.exec(className || '')
+  const lang = match ? match[1] : undefined
+  
+  // 使用 sugar-high 的高亮函数，支持语言参数
+  let codeHTML = highlight(children, {
+    lang: lang,
+  })
+  
+  return (
+    <code 
+      className={className}
+      dangerouslySetInnerHTML={{ __html: codeHTML }} 
+      {...props} 
+    />
+  )
 }
 
 function slugify(str) {
@@ -86,6 +100,29 @@ function createHeading(level) {
   return Heading
 }
 
+// 代码块组件（支持语言选择和复制按钮）
+function CodeBlock({ children, className, ...props }) {
+  const match = /language-(\w+)/.exec(className || '')
+  const lang = match ? match[1] : ''
+  
+  return (
+    <div className="relative group">
+      <pre {...props}>
+        <code className={className}>
+          {children}
+        </code>
+      </pre>
+      {lang && (
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">
+            {lang}
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -96,6 +133,7 @@ let components = {
   Image: RoundedImage,
   a: CustomLink,
   code: Code,
+  pre: CodeBlock,
   Table,
 }
 
