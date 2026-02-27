@@ -55,28 +55,28 @@ export interface BlogPostMeta {
  * // ]
  * ```
  */
-export function getSortedPosts(): BlogPostMeta[] {
+export function getAllPosts(): BlogPostMeta[] {
   const blogDirectory = path.join(process.cwd(), 'content/blog')
   const fileNames = fs.readdirSync(blogDirectory)
   
-  const allPosts = fileNames
-    .map(fileName => {
-      const slug = fileName.replace(/\.md$/, '')
-      const fullPath = path.join(blogDirectory, fileName)
-      const fileContents = fs.readFileSync(fullPath, 'utf8')
-      const { data } = matter(fileContents)
-      
-      return {
-        slug,
-        title: data.title as string,
-        date: data.date as string,
-        tags: (data.tags as string[]) || [],
-        summary: data.summary as string,
-      }
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
-  
-  return allPosts
+  return fileNames.map(fileName => {
+    const slug = fileName.replace(/\.md$/, '')
+    const fullPath = path.join(blogDirectory, fileName)
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const { data } = matter(fileContents)
+    
+    return {
+      slug,
+      title: data.title as string,
+      date: data.date as string,
+      tags: (data.tags as string[]) || [],
+      summary: data.summary as string,
+    }
+  })
+}
+
+export function getSortedPosts(): BlogPostMeta[] {
+  return getAllPosts().sort((a, b) => (a.date < b.date ? 1 : -1))
 }
 
 /**
