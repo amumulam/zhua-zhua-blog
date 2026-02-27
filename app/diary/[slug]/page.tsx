@@ -112,7 +112,7 @@ export default async function Blog({ params }) {
         </div>
       )}
       
-      <article className="prose">
+      <article className="prose dark:prose-invert max-w-none">
         <CustomMDX source={post.content} />
       </article>
     </section>
