@@ -143,16 +143,16 @@ summary: "文章摘要"
 
 ### Git Pre-commit Hook
 
-**首次启用：**
+**自动修复：** 每次 commit 时自动执行分割线修复脚本
 
 ```bash
-chmod +x .git/hooks/pre-commit
+git commit  # 自动触发修复
 ```
 
-**之后每次 commit 时自动检查 Markdown 文件分割线格式：**
+**手动修复：**
 
 ```bash
-git commit  # 自动触发检查
+pnpm run fix:dividers
 ```
 
 ### 手动修复
