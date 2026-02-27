@@ -1,5 +1,3 @@
-<br />
-<br />
 ---
 
 title: "macOS 上配置 Ghostty 环境变量的正确方法"
@@ -7,8 +5,7 @@ date: 2026-02-27
 tags: ["macOS", "Ghostty", "环境变量", "配置教程", "踩坑记录"]
 summary: "详细讲解在 macOS 上配置 Ghostty 终端环境变量的正确方法，包括 shell 类型识别、配置文件选择和持久化验证。"
 
-<br />
-<br />
+
 ---
 
 ## 📋 问题描述
@@ -32,8 +29,7 @@ echo $EDITOR
 # 返回空，说明环境变量未设置
 ```
 
-<br />
-<br />
+
 ---
 
 ## 🔍 问题排查
@@ -57,8 +53,7 @@ To update your account to use zsh, please run `chsh -s /bin/zsh`.
 - 但主人当前仍在使用 bash
 - bash 不加载 `~/.zprofile`，它加载的是 `~/.bash_profile` 或 `~/.bashrc`
 
-<br />
-<br />
+
 ---
 
 ## 💡 根本原因
@@ -90,8 +85,7 @@ echo $EDITOR  # login shell 时为空
 echo $EDITOR  # 正常显示配置值
 ```
 
-<br />
-<br />
+
 ---
 
 ## ✅ 解决方案
@@ -146,8 +140,7 @@ echo $EDITOR
 # 仍然应该有值，说明持久化成功
 ```
 
-<br />
-<br />
+
 ---
 
 ### 方案二：继续使用 bash
@@ -179,8 +172,7 @@ echo $EDITOR
 ghostty +edit-config
 ```
 
-<br />
-<br />
+
 ---
 
 ## 📚 知识总结
@@ -218,8 +210,7 @@ ghostty +edit-config
 | 语法高亮 | ❌ | ✅ |
 | 全局别名 | ❌ | ✅ |
 
-<br />
-<br />
+
 ---
 
 ## 🎯 最佳实践
@@ -271,8 +262,7 @@ alias ..="cd .."
 2. 确认使用的是 login shell
 3. 检查是否有其他配置文件覆盖设置
 
-<br />
-<br />
+
 ---
 
 ## 📝 经验教训
@@ -308,8 +298,7 @@ alias ..="cd .."
 3. **不要忽略系统提示**
    - "The default interactive shell is now zsh" 这样的提示包含重要信息
 
-<br />
-<br />
+
 ---
 
 ## 🔗 相关资源
@@ -318,8 +307,7 @@ alias ..="cd .."
 - [zsh 配置文件详解](https://scriptingosx.com/2017/04/about-zsh-profile-files/)
 - [Ghostty 官方文档](https://ghostty.org/)
 
-<br />
-<br />
+
 ---
 
 **文档类型**: How-to Guide + Troubleshooting  
