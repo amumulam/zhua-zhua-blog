@@ -53,10 +53,8 @@ function Code({ children, className, ...props }) {
   const match = /language-(\w+)/.exec(className || '')
   const lang = match ? match[1] : undefined
   
-  // 使用 sugar-high 的高亮函数，支持语言参数
-  let codeHTML = highlight(children, {
-    lang: lang,
-  })
+  // sugar-high 自动检测语言并高亮
+  let codeHTML = highlight(children)
   
   return (
     <code 
