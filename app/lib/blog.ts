@@ -36,7 +36,7 @@ export interface BlogPostMeta {
   slug: string
   title: string
   date: string
-  tags: string[]
+  tags?: string[]
   summary: string
 }
 
@@ -70,7 +70,7 @@ export function getSortedPosts(): BlogPostMeta[] {
         slug,
         title: data.title as string,
         date: data.date as string,
-        tags: data.tags as string[] || [],
+        tags: (data.tags as string[]) || [],
         summary: data.summary as string,
       }
     })
