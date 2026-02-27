@@ -9,16 +9,16 @@ interface BlogPostsProps {
 export function BlogPosts({ type = 'diary' }: BlogPostsProps) {
   let allPosts = type === 'diary' 
     ? getBlogPosts().map(post => ({
-        slug: post.slug,
-        title: post.metadata.title,
-        publishedAt: post.metadata.publishedAt,
-        tags: post.metadata.tags || [],
+        slug: String(post.slug || ''),
+        title: String(post.metadata.title || ''),
+        publishedAt: String(post.metadata.publishedAt || ''),
+        tags: Array.isArray(post.metadata.tags) ? post.metadata.tags : [],
       }))
     : getSortedPosts().map(post => ({
-        slug: post.slug,
-        title: post.title,
-        publishedAt: post.date,
-        tags: post.tags || [],
+        slug: String(post.slug || ''),
+        title: String(post.title || ''),
+        publishedAt: String(post.date || ''),
+        tags: Array.isArray(post.tags) ? post.tags : [],
       }))
 
   return (
