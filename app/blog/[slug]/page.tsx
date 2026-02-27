@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getPostBySlug, getSortedPosts } from '../../lib/blog'
-import { MDXRemote } from 'next-mdx-remote/rsc'
+import { CustomMDX } from 'app/components/mdx'
 import Link from 'next/link'
 
 interface PageProps {
@@ -68,8 +68,8 @@ export default async function Page({ params }: PageProps) {
         </div>
       )}
       
-      <article className="prose dark:prose-invert max-w-none">
-        <MDXRemote source={post.content} />
+      <article className="max-w-none">
+        <CustomMDX source={post.content} />
       </article>
       
       <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
