@@ -121,7 +121,7 @@ summary: "文章摘要"
 
 ### 分割线格式规范
 
-分割线（`---`）前后必须有空行：
+分割线（`---`）前后必须有两个换行符（空行）：
 
 ```markdown
 上文内容
@@ -131,7 +131,11 @@ summary: "文章摘要"
 下文内容
 ```
 
-**自动修复：** 运行 `pnpm run fix:md` 自动修复所有 Markdown 文件的分割线格式。
+**自动修复：**
+
+- **本地开发：** `pnpm run fix:dividers`
+- **构建前自动：** `pnpm build` 或 `pnpm export` 会自动执行修复
+- **部署前自动：** Vercel 和 GitHub Pages 部署时会自动执行
 
 ---
 

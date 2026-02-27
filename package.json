@@ -6,7 +6,9 @@
     "build": "next build",
     "start": "next start",
     "export": "EXPORT=true GITHUB_PAGES=true next build",
-    "fix:md": "bash scripts/fix-markdown-dividers.sh"
+    "fix:dividers": "node scripts/fix-dividers.js",
+    "prebuild": "node scripts/fix-dividers.js",
+    "preexport": "node scripts/fix-dividers.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.0.0-alpha.13",
