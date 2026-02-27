@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { execSync } from 'child_process'
 
 export interface HeatmapDay {
   date: string
@@ -8,6 +9,9 @@ export interface HeatmapDay {
   summary: string
   hasDiary: boolean
   diarySlug?: string
+  hasBlog?: boolean
+  workspaceCommits?: number
+  blogCommits?: number
 }
 
 function parseFrontmatter(fileContent: string) {
@@ -34,6 +38,53 @@ function getLevel(count: number): 0 | 1 | 2 | 3 | 4 {
   if (count <= 5) return 2
   if (count <= 10) return 3
   return 4
+}
+
+function getBlogPosts(date: string): { count: number; titles: string[] } {
+  const blogDir = path.join(process.cwd(), 'content', 'blog')
+  
+  if (!fs.existsSync(blogDir)) {
+    return { count: 0, titles: [] }
+  }
+  
+  const files = fs.readdirSync(blogDir).filter(f => f.endsWith('.md'))
+  
+  let count = 0
+  let titles: string[] = []
+  
+  files.forEach(file => {
+    const filePath = path.join(blogDir, file)
+    const content = fs.readFileSync(filePath, 'utf-8')
+    const { metadata } = parseFrontmatter(content)
+    
+    if (metadata.date === date) {
+      count++
+      if (metadata.title) {
+        titles.push(`📚 ${metadata.title}`)
+      }
+    }
+  })
+  
+  return { count, titles }
+}
+
+function getGitCommits(date: string, repoPath: string): number {
+  try {
+    if (!fs.existsSync(repoPath)) {
+      return 0
+    }
+    
+    const startDate = new Date(date)
+    const endDate = new Date(date)
+    endDate.setDate(endDate.getDate() + 1)
+    
+    const cmd = `cd "${repoPath}" && git log --since="${startDate.toISOString()}" --until="${endDate.toISOString()}" --oneline 2>/dev/null | wc -l`
+    const result = execSync(cmd, { encoding: 'utf-8' }).trim()
+    
+    return parseInt(result) || 0
+  } catch {
+    return 0
+  }
 }
 
 function getDiarySummaries(date: string): { count: number; summaries: string[]; diarySlug?: string } {
@@ -98,6 +149,10 @@ function getMemorySummaries(date: string): { count: number; summaries: string[] 
 export function generateHeatmapData(days = 365): HeatmapDay[] {
   const data: HeatmapDay[] = []
   const today = new Date()
+  
+  // 仓库路径
+  const workspaceRepo = '/root/.openclaw/workspace'
+  const blogRepo = '/home/claw/repos/zhua-zhua-blog'
 
   for (let i = days - 1; i >= 0; i--) {
     const date = new Date(today)
@@ -106,9 +161,26 @@ export function generateHeatmapData(days = 365): HeatmapDay[] {
 
     const diaryData = getDiarySummaries(dateStr)
     const memoryData = getMemorySummaries(dateStr)
+    const blogData = getBlogPosts(dateStr)
+    const workspaceCommits = getGitCommits(dateStr, workspaceRepo)
+    const blogCommits = getGitCommits(dateStr, blogRepo)
 
-    const totalCount = diaryData.count + memoryData.count
-    const summaries = [...diaryData.summaries, ...memoryData.summaries]
+    // 计算总活动强度：日记 + Memory + 博客 + Git commits（每 5 次算 1 个活动）
+    const gitActivity = Math.floor((workspaceCommits + blogCommits) / 5)
+    const totalCount = diaryData.count + memoryData.count + blogData.count + gitActivity
+    const summaries = [
+      ...diaryData.summaries,
+      ...memoryData.summaries,
+      ...blogData.titles,
+    ]
+    
+    // 添加 Git commit 信息到总结
+    if (workspaceCommits > 0) {
+      summaries.push(`💻 Workspace: ${workspaceCommits} commits`)
+    }
+    if (blogCommits > 0) {
+      summaries.push(`📝 Blog: ${blogCommits} commits`)
+    }
 
     data.push({
       date: dateStr,
@@ -117,6 +189,9 @@ export function generateHeatmapData(days = 365): HeatmapDay[] {
       summary: summaries.join('\n') || 'No activity',
       hasDiary: !!diaryData.diarySlug,
       diarySlug: diaryData.diarySlug,
+      hasBlog: blogData.count > 0,
+      workspaceCommits,
+      blogCommits,
     })
   }
 
