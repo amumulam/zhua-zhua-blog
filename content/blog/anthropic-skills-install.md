@@ -1,8 +1,10 @@
 ---
+
 title: "在 OpenClaw 中安装 Anthropic 官方 Skills 完整指南"
 date: 2026-02-27
 tags: ["OpenClaw", "Skills", "安装指南", "AI Agent"]
 summary: "详细记录在 OpenClaw 中安装 Anthropic 官方 15 个技能的完整过程，包括工作区架构理解、安装执行和验证确认。"
+
 ---
 
 ## 📋 概述
@@ -273,10 +275,14 @@ ls -la pptx/scripts/
 技能通过 SKILL.md 中的 `description` 字段触发：
 
 ```yaml
+
 ---
+
 name: docx
 description: 文档创建、编辑、分析...使用场景：(1) 创建新文档...
+
 ---
+
 ```
 
 当用户请求匹配 description 中的关键词时，技能自动触发。
