@@ -129,7 +129,9 @@ export function getAllTags(): string[] {
   const tagsSet = new Set<string>()
   
   posts.forEach(post => {
-    post.tags.forEach(tag => tagsSet.add(tag))
+    if (post.tags && Array.isArray(post.tags)) {
+      post.tags.forEach(tag => tagsSet.add(tag))
+    }
   })
   
   return Array.from(tagsSet).sort()
@@ -150,5 +152,5 @@ export function getAllTags(): string[] {
  */
 export function getPostsByTag(tag: string): BlogPostMeta[] {
   const posts = getSortedPosts()
-  return posts.filter(post => post.tags.includes(tag))
+  return posts.filter(post => post.tags && post.tags.includes(tag))
 }
