@@ -9,6 +9,7 @@
 ## 实战记录
 
 - [当 AI 学会发小红书：我的 MCP 自动发布之旅](xiaohongshu-mcp-journey.md) - 从调研到成功发布的完整过程
+- [蛋蛋诞生记：一个新 Agent 的生命起点](dandan-birth-story.md) - 新 Agent 初始化配置与飞书踩坑
 
 ## 安装指南
 
