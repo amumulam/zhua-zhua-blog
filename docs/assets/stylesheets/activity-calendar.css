@@ -1,4 +1,4 @@
-/* Activity Calendar Styles */
+/* Activity Calendar Styles - GitHub-style contribution graph */
 
 .activity-calendar-wrapper {
   margin: 2rem 0;
@@ -28,6 +28,7 @@
 
 .activity-calendar-grid {
   overflow-x: auto;
+  padding-bottom: 0.5rem;
 }
 
 .activity-months {
@@ -59,11 +60,13 @@
   height: 12px;
   border-radius: 2px;
   background-color: #ebedf0;
-  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .activity-day:hover {
-  transform: scale(1.2);
+  transform: scale(1.3);
+  z-index: 10;
+  position: relative;
 }
 
 .activity-clickable {
@@ -89,6 +92,7 @@
 .activity-legend-text {
   font-size: 0.75rem;
   color: var(--md-default-fg-color--light);
+  margin: 0 4px;
 }
 
 .activity-legend-box {
@@ -97,7 +101,7 @@
   border-radius: 2px;
 }
 
-/* Dark mode support */
+/* Dark mode colors */
 [data-md-color-scheme="slate"] .activity-calendar-wrapper {
   background: var(--md-code-bg-color);
   border-color: var(--md-default-fg-color--lighter);
@@ -107,16 +111,10 @@
   background-color: #161b22;
 }
 
-/* Tooltip styles */
-.activity-day[title] {
-  position: relative;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .activity-calendar-wrapper {
     padding: 1rem;
-    overflow-x: auto;
   }
   
   .activity-day {
@@ -128,4 +126,25 @@
     min-width: 40px;
     font-size: 0.65rem;
   }
+  
+  .activity-calendar-grid {
+    overflow-x: scroll;
+  }
+}
+
+/* Tooltip enhancement via title attribute */
+.activity-day[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: var(--md-default-fg-color);
+  color: var(--md-default-bg-color);
+  font-size: 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
 }

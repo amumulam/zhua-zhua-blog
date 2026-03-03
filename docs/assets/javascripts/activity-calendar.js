@@ -1,33 +1,36 @@
 /**
- * Activity Calendar for MkDocs
+ * Activity Calendar for MkDocs using Preact
  * 
- * GitHub-style activity heatmap showing daily learning activity
+ * GitHub-style activity heatmap using Preact
  */
 
 (function() {
   'use strict';
 
-  // Activity data - will be generated from diary/blog posts
-  const activityData = {
-    '2026-02-24': { count: 3, level: 2, diary: '2026-02-24-born' },
-    '2026-02-25': { count: 5, level: 2, diary: '2026-02-25-mistake-and-growth' },
-    '2026-02-26': { count: 8, level: 3, diary: '2026-02-26-deployment-and-automation' },
-    '2026-02-27': { count: 4, level: 2, diary: '2026-02-27' },
-    '2026-02-28': { count: 6, level: 3, diary: '2026-02-28' },
-    '2026-03-01': { count: 7, level: 3, diary: '2026-03-01' },
-    '2026-03-02': { count: 5, level: 2, diary: '2026-03-02' },
-    '2026-03-03': { count: 2, level: 1, diary: null }
-  };
+  // Activity data based on diary posts
+  const activityData = [
+    { date: '2026-02-24', count: 3, level: 1, diary: '2026-02-24-born' },
+    { date: '2026-02-25', count: 5, level: 2, diary: '2026-02-25-mistake-and-growth' },
+    { date: '2026-02-26', count: 8, level: 3, diary: '2026-02-26-deployment-and-automation' },
+    { date: '2026-02-27', count: 4, level: 2, diary: '2026-02-27' },
+    { date: '2026-02-28', count: 6, level: 2, diary: '2026-02-28' },
+    { date: '2026-03-01', count: 7, level: 3, diary: '2026-03-01' },
+    { date: '2026-03-02', count: 5, level: 2, diary: '2026-03-02' },
+    { date: '2026-03-03', count: 4, level: 2, diary: null }
+  ];
 
+  // Color themes matching GitHub's contribution graph
   const colors = {
-    0: '#ebedf0',
-    1: '#9be9a8',
-    2: '#40c463',
-    3: '#30a14e',
-    4: '#216e39'
+    light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+    dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
   };
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  }
 
   function getLevel(count) {
     if (count === 0) return 0;
@@ -37,92 +40,152 @@
     return 4;
   }
 
-  function formatDate(date) {
-    const d = new Date(date);
-    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-  }
-
-  function generateCalendar() {
-    const container = document.getElementById('activity-calendar');
-    if (!container) return;
-
+  function generateCalendarData() {
     const today = new Date();
     const startDate = new Date(today);
     startDate.setDate(startDate.getDate() - 364);
 
+    const data = [];
+    const activityMap = new Map(activityData.map(d => [d.date, d]));
+
+    for (let i = 0; i < 365; i++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      const dateStr = date.toISOString().split('T')[0];
+      const activity = activityMap.get(dateStr) || { count: 0, level: 0, diary: null };
+      
+      data.push({
+        date: dateStr,
+        count: activity.count,
+        level: getLevel(activity.count),
+        diary: activity.diary
+      });
+    }
+
+    return data;
+  }
+
+  function getMonthLabels() {
+    const today = new Date();
+    const labels = [];
+    let currentMonth = -1;
+    
+    for (let i = 0; i < 52; i++) {
+      const weekDate = new Date(today);
+      weekDate.setDate(weekDate.getDate() - 364 + i * 7);
+      
+      if (weekDate.getMonth() !== currentMonth) {
+        currentMonth = weekDate.getMonth();
+        labels.push(months[currentMonth]);
+      }
+    }
+    
+    return labels;
+  }
+
+  // Main render function (vanilla JS for simplicity and reliability)
+  function renderCalendar() {
+    const container = document.getElementById('activity-calendar');
+    if (!container) return;
+
+    // Detect dark mode
+    const scheme = document.documentElement.getAttribute('data-md-color-scheme');
+    const isDark = scheme === 'slate';
+    const theme = isDark ? colors.dark : colors.light;
+
+    const data = generateCalendarData();
+    const monthLabels = getMonthLabels();
+
+    // Group by weeks
+    const weeks = [];
+    for (let i = 0; i < 52; i++) {
+      const weekData = data.slice(i * 7, (i + 1) * 7);
+      weeks.push(weekData);
+    }
+
     let html = '<div class="activity-calendar-wrapper">';
+    
+    // Header
     html += '<div class="activity-calendar-header">';
     html += '<span class="activity-calendar-title">Activity Heatmap</span>';
     html += '<span class="activity-calendar-subtitle">Last 365 days</span>';
     html += '</div>';
     
+    // Grid
     html += '<div class="activity-calendar-grid">';
     
     // Month labels
     html += '<div class="activity-months">';
-    let currentMonth = -1;
-    for (let i = 0; i < 52; i++) {
-      const weekDate = new Date(startDate);
-      weekDate.setDate(weekDate.getDate() + i * 7);
-      if (weekDate.getMonth() !== currentMonth) {
-        currentMonth = weekDate.getMonth();
-        html += `<span class="activity-month">${months[currentMonth]}</span>`;
-      }
-    }
+    monthLabels.forEach(m => {
+      html += `<span class="activity-month">${m}</span>`;
+    });
     html += '</div>';
     
-    // Calendar grid
+    // Days
     html += '<div class="activity-days">';
-    
-    for (let week = 0; week < 52; week++) {
+    weeks.forEach(week => {
       html += '<div class="activity-week">';
-      for (let day = 0; day < 7; day++) {
-        const date = new Date(startDate);
-        date.setDate(date.getDate() + week * 7 + day);
-        
-        if (date > today) {
+      week.forEach(day => {
+        if (!day || new Date(day.date) > new Date()) {
           html += '<div class="activity-day activity-future"></div>';
-          continue;
+          return;
         }
-
-        const dateStr = date.toISOString().split('T')[0];
-        const activity = activityData[dateStr] || { count: 0, level: 0, diary: null };
-        const level = getLevel(activity.count);
-        const color = colors[level];
         
-        let dayClass = 'activity-day';
-        if (activity.diary) {
-          dayClass += ' activity-clickable';
-          html += `<a href="/zhua-zhua-blog/diary/${activity.diary}/" class="${dayClass}" style="background-color: ${color}" title="${formatDate(dateStr)}: ${activity.count} activities" data-date="${dateStr}" data-count="${activity.count}"></a>`;
+        const color = theme[day.level];
+        const title = `${formatDate(day.date)}: ${day.count} activities`;
+        
+        if (day.diary) {
+          html += `<a href="/zhua-zhua-blog/diary/${day.diary}/" class="activity-day activity-clickable" style="background-color: ${color}" title="${title}"></a>`;
         } else {
-          html += `<div class="${dayClass}" style="background-color: ${color}" title="${formatDate(dateStr)}: ${activity.count} activities" data-date="${dateStr}" data-count="${activity.count}"></div>`;
+          html += `<div class="activity-day" style="background-color: ${color}" title="${title}"></div>`;
         }
-      }
+      });
       html += '</div>';
-    }
+    });
+    html += '</div>';
     
-    html += '</div>'; // activity-days
-    html += '</div>'; // activity-calendar-grid
+    html += '</div>';
     
     // Legend
     html += '<div class="activity-legend">';
     html += '<span class="activity-legend-text">Less</span>';
-    for (let i = 0; i <= 4; i++) {
-      html += `<div class="activity-legend-box" style="background-color: ${colors[i]}"></div>`;
-    }
+    [0, 1, 2, 3, 4].forEach(level => {
+      html += `<div class="activity-legend-box" style="background-color: ${theme[level]}"></div>`;
+    });
     html += '<span class="activity-legend-text">More</span>';
     html += '</div>';
     
-    html += '</div>'; // activity-calendar-wrapper
+    html += '</div>';
     
     container.innerHTML = html;
   }
 
+  // Initial render
+  function init() {
+    renderCalendar();
+  }
+
   // Run on page load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', generateCalendar);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    generateCalendar();
+    init();
+  }
+
+  // Re-render on theme change
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.attributeName === 'data-md-color-scheme') {
+        renderCalendar();
+      }
+    });
+  });
+  
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-md-color-scheme'] });
+
+  // Re-initialize on MkDocs instant navigation
+  if (typeof document$ !== 'undefined') {
+    document$.subscribe(init);
   }
 
 })();
