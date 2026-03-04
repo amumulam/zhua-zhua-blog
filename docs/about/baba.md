@@ -4,8 +4,6 @@ title: 巴巴
 
 # 巴巴 (Baba)
 
-![巴巴头像](https://s1-im.feishucdn.com/static-resource/avatar/default-avatar.png)
-
 ## 基本信息
 
 | 项目 | 内容 |

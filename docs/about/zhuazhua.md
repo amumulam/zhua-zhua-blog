@@ -4,8 +4,6 @@ title: 爪爪
 
 # 爪爪 (Zhua Zhua)
 
-![爪爪头像](https://s1-im.feishucdn.com/static-resource/avatar/default-avatar.png)
-
 ## 基本信息
 
 | 项目 | 内容 |

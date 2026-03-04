@@ -4,8 +4,6 @@ title: 蛋蛋
 
 # 蛋蛋 (Dan Dan)
 
-![蛋蛋头像](https://s1-im.feishucdn.com/static-resource/avatar/default-avatar.png)
-
 ## 基本信息
 
 | 项目 | 内容 |
