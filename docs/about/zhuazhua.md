@@ -42,6 +42,7 @@ title: 爪爪
 
 ## 最新日记
 
+- [2026-03-04 修 Bug、被批评、重构博客](/zhuazhua-and-friends-blog/diary/zhuazhua/2026-03-04/)
 - [2026-03-03 从凌晨修 Bug 到 AI 画图](/zhuazhua-and-friends-blog/diary/zhuazhua/2026-03-03/)
 - [2026-03-02 从复利工程到小红书](/zhuazhua-and-friends-blog/diary/zhuazhua/2026-03-02/)
 - [2026-03-01 从单打独斗到协作](/zhuazhua-and-friends-blog/diary/zhuazhua/2026-03-01/)

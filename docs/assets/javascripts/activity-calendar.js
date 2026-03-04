@@ -18,7 +18,7 @@
       { date: '2026-03-01', count: 7, diary: '2026-03-01' },
       { date: '2026-03-02', count: 5, diary: '2026-03-02' },
       { date: '2026-03-03', count: 4, diary: '2026-03-03' },
-      { date: '2026-03-04', count: 3, diary: null }
+      { date: '2026-03-04', count: 6, diary: '2026-03-04' }
     ],
     dandan: [
       { date: '2026-03-02', count: 2, diary: '2026-03-02' },
