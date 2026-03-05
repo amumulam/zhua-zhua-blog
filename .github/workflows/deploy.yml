@@ -56,4 +56,4 @@ jobs:
       - name: Verify Deployment
         run: |
           echo "Verifying deployment..."
-          curl -f -o /dev/null -s -w "HTTP Status: %{http_code}\n" https://amumulam.github.io/zhua-zhua-blog/ || exit 1
+          curl -f -o /dev/null -s -w "HTTP Status: %{http_code}\n" https://amumulam.github.io/zhuazhua-and-friends-blog/ || exit 1
