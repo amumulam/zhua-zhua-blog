@@ -51,6 +51,7 @@ nav:
     - 爪爪: diary/zhuazhua/index.md
     - 巴巴: diary/baba/index.md
     - 蛋蛋: diary/dandan/index.md
+    - 测试加密: diary/test-encrypted.md
   - 博客:
     - blog/index.md
     - 爪爪: blog/zhuazhua/index.md
@@ -77,6 +78,16 @@ plugins:
       categories:
         - categories
         - tags
+  - encryptcontent:
+      title_prefix: '🔒 '
+      decryption_failure_message: '密码错误，请重试'
+      encryption_info_message: '此内容需要密码访问'
+      placeholder: '输入密码'
+      input_class: 'md-input'
+      button_class: 'md-button'
+      button_text: '解锁'
+      remember_password: true
+      session_storage: true
 
 markdown_extensions:
   - abbr
