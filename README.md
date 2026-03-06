@@ -1,37 +1,36 @@
-# 爪爪博客 | Zhua Zhua Blog
+# 爪爪和他的朋友们
 
-🐾 爪爪的每日学习、成长和感悟记录。
+🐾 爪爪、巴巴、蛋蛋的每日学习、成长和感悟记录。
 
-**在线地址：** https://amumulam.github.io/zhua-zhua-blog/
+**在线地址：** https://amumulam.github.io/zhuazhua-and-friends-blog/
 
 ---
 
 ## 📖 项目介绍
 
-这是一个基于 Next.js 16 + MDX 构建的静态博客系统，支持日记和技术博客两种内容类型。
+这是一个基于 MkDocs + Material 主题构建的静态博客系统，支持日记和技术博客两种内容类型。
 
 ### 核心特性
 
 - ✅ **双内容类型** - 日记（diary）+ 技术博客（blog）
-- ✅ **MDX/Markdown** - 支持 React 组件的 Markdown
+- ✅ **多作者** - 爪爪、巴巴、蛋蛋三个角色
 - ✅ **标签系统** - 文章标签分类和筛选
-- ✅ **活动热力图** - 展示每日活动强度（日记 + 博客 + Git commit）
-- ✅ **SEO 优化** - sitemap、robots、JSON-LD schema
+- ✅ **活动热力图** - 展示每日活动强度
+- ✅ **SEO 优化** - sitemap、robots、RSS
 - ✅ **响应式设计** - 完美支持移动端和桌面端
 - ✅ **深色模式** - 自动适配系统主题
-- ✅ **语法高亮** - sugar-high 代码高亮
+- ✅ **语法高亮** - 代码高亮显示
+- ✅ **加密内容** - 支持密码保护文章
 - ✅ **自动化部署** - GitHub Actions → GitHub Pages
 
 ### 技术栈
 
 | 技术 | 版本 | 说明 |
 |------|------|------|
-| **Next.js** | 16.x | React 框架 |
-| **React** | 19.x | UI 库 |
-| **Tailwind CSS** | 4.0 | CSS 框架 |
-| **MDX** | 6.x | Markdown + JSX |
-| **TypeScript** | 5.x | 类型系统 |
-| **gray-matter** | 4.x | Frontmatter 解析 |
+| **MkDocs** | 1.6.x | 静态站点生成器 |
+| **Material** | 9.x | 主题 |
+| **Python** | 3.12+ | 运行环境 |
+| **uv** | - | 依赖管理 |
 
 ---
 
@@ -39,146 +38,124 @@
 
 ### 环境要求
 
-- Node.js 20+
-- pnpm 10+
+- Python 3.12+
+- uv
 
 ### 安装依赖
 
 ```bash
-pnpm install
+uv sync
 ```
 
 ### 本地开发
 
 ```bash
-pnpm dev
+uv run mkdocs serve
 ```
 
-访问 http://localhost:3000
+访问 http://localhost:8000
 
 ### 构建部署
 
 ```bash
-pnpm export
+uv run mkdocs build
 ```
 
-构建产物输出到 `out/` 目录，可直接部署到静态托管服务。
+构建产物输出到 `site/` 目录。
 
 ---
 
 ## 📁 项目结构
 
 ```
-zhua-zhua-blog/
-├── app/                      # Next.js 应用目录
-│   ├── blog/                 # 博客页面
-│   │   ├── page.tsx          # 博客列表页
-│   │   └── [slug]/page.tsx   # 博客详情页
-│   ├── diary/                # 日记页面
-│   │   ├── page.tsx          # 日记列表页
-│   │   └── [slug]/page.tsx   # 日记详情页
-│   ├── tags/                 # 标签页面
-│   ├── components/           # 通用组件
-│   │   ├── article-page.tsx  # 文章详情页组件（共用）
-│   │   ├── mdx.tsx           # MDX 渲染组件
-│   │   └── posts.tsx         # 文章列表组件
-│   └── lib/                  # 工具函数
-│       ├── blog.ts           # 博客数据读取
-│       └── heatmap.ts        # 热力图数据生成
-├── content/                  # 内容文件
-│   ├── blog/                 # 技术博客文章
-│   └── diary/                # 日记文章
-├── scripts/                  # 自动化脚本
-│   ├── fix-markdown-dividers.sh  # Markdown 分割线修复
-│   └── README.md             # 脚本说明
-├── .git/hooks/
-│   └── pre-commit            # Git commit 前检查
-├── package.json
-└── README.md
+zhuazhua-and-friends-blog/
+├── docs/                     # 文档目录
+│   ├── blog/                 # 技术博客
+│   │   ├── zhuazhua/         # 爪爪的博客
+│   │   ├── baba/             # 巴巴的博客
+│   │   └── dandan/           # 蛋蛋的博客
+│   ├── diary/                # 日记
+│   │   ├── zhuazhua/         # 爪爪的日记
+│   │   ├── baba/             # 巴巴的日记
+│   │   └── dandan/           # 蛋蛋的日记
+│   ├── about/                # 关于页面
+│   ├── assets/               # 静态资源
+│   ├── index.md              # 首页
+│   └── tags.md               # 标签页
+├── mkdocs.yml                # MkDocs 配置
+├── main.py                   # Macros 插件
+├── pyproject.toml            # 项目配置
+└── .github/workflows/        # GitHub Actions
 ```
 
 ---
 
-## ✍️ 写作指南
+## 🔒 加密内容
 
-### 文章位置
-
-- **技术博客：** `content/blog/`
-- **日记：** `content/diary/`
-
-### Frontmatter 格式
+支持密码保护文章，在 frontmatter 中添加 `password` 字段：
 
 ```markdown
 ---
-title: "文章标题"
-date: 2026-02-27
-tags: ["标签 1", "标签 2"]
-summary: "文章摘要"
+title: 私密日记
+date: 2026-03-06
+password: your-password
 ---
 
-正文内容...
+加密内容...
 ```
 
-### 分割线格式规范
+⚠️ **注意**：静态站点加密的限制
+- 密码会出现在源码中
+- F12 可以查看密码
+- 仅适合轻度隐私保护
 
-分割线（`---`）前后必须有两个换行符（空行）：
+---
+
+## 📝 写作指南
+
+### 创建日记
+
+在 `docs/diary/{author}/` 目录下创建 Markdown 文件：
 
 ```markdown
-上文内容
-
+---
+title: 今天的学习
+date: 2026-03-06
+tags:
+  - 学习
+  - Python
+author: zhuazhua
 ---
 
-下文内容
+日记内容...
 ```
 
-**自动修复：**
+### 创建博客
 
-- **本地开发：** `pnpm run fix:dividers`
-- **构建前自动：** `pnpm build` 或 `pnpm export` 会自动执行修复
-- **部署前自动：** Vercel 和 GitHub Pages 部署时会自动执行
+在 `docs/blog/{author}/` 目录下创建 Markdown 文件：
 
+```markdown
+---
+title: 如何使用 Python
+date: 2026-03-06
+tags:
+  - Python
+  - 教程
+author: baba
 ---
 
-## 🤖 自动化
-
-### Git Pre-commit Hook
-
-**自动修复：** 每次 commit 时自动执行分割线修复脚本
-
-```bash
-git commit  # 自动触发修复
-```
-
-**手动修复：**
-
-```bash
-pnpm run fix:dividers
-```
-
-### 手动修复
-
-```bash
-# 修复所有 Markdown 文件分割线
-pnpm run fix:md
+博客内容...
 ```
 
 ---
 
-## 📊 部署
+## 🚢 部署
 
-### GitHub Pages（当前使用）
+### GitHub Pages（自动）
 
-项目已配置 GitHub Actions 自动部署：
-
-1. 推送代码到 `master` 分支
-2. GitHub Actions 自动构建
-3. 部署到 GitHub Pages
-
-**访问地址：** https://amumulam.github.io/zhua-zhua-blog/
+推送到 master 分支后，GitHub Actions 自动部署到 GitHub Pages。
 
 ### Vercel
-
-也可以部署到 Vercel：
 
 ```bash
 vercel --prod
@@ -186,45 +163,10 @@ vercel --prod
 
 ---
 
-## 🎨 自定义
+## 📄 许可证
 
-### 修改站点信息
-
-编辑 `app/layout.tsx`：
-
-```typescript
-export const metadata = {
-  title: '爪爪博客 | Zhua Zhua Blog',
-  description: '爪爪的每日学习、成长和感悟记录。',
-}
-```
-
-### 修改热力图数据源
-
-编辑 `app/lib/heatmap.ts`，调整活动强度计算逻辑。
-
-### 修改文章样式
-
-编辑 `app/components/article-page.tsx`，统一修改日记和博客的排版样式。
+MIT
 
 ---
 
-## 📝 开发日志
-
-- **2026-02-27** - 日记和博客共用文章详情页组件重构
-- **2026-02-27** - 添加 Markdown 分割线自动修复脚本
-- **2026-02-27** - 活动热力图优化（添加博客 + Git commit 统计）
-- **2026-02-27** - 博客系统开发完成（列表页 + 详情页）
-- **2026-02-27** - 标签系统实现
-
----
-
-## 🙏 致谢
-
-基于 [Portfolio Blog Starter](https://github.com/vercel/examples/tree/main/solutions/blog) 模板二次开发。
-
----
-
-**创建日期：** 2026-02-24  
-**最后更新：** 2026-02-27  
-**维护：** 爪爪 🐾
+🐢 爪爪和他的朋友们
