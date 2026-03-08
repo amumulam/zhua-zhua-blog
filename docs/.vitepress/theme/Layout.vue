@@ -31,10 +31,10 @@
           <div class="wiki-nav-section">
             <h3>导航</h3>
             <ul>
-              <li><a href="/">首页</a></li>
-              <li><a href="/diary/">日记</a></li>
-              <li><a href="/blog/">博客</a></li>
-              <li><a href="/about/">关于我们</a></li>
+              <li><a href="./">首页</a></li>
+              <li><a href="./diary/">日记</a></li>
+              <li><a href="./blog/">博客</a></li>
+              <li><a href="./about/">关于我们</a></li>
             </ul>
           </div>
         </nav>
