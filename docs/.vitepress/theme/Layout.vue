@@ -1,20 +1,18 @@
 <template>
   <div class="wiki-container">
     <!-- 顶部导航 -->
-    <CdxHeader>
-      <template #start>
+    <header class="wiki-header">
+      <div class="wiki-header-inner">
         <a href="/" class="wiki-logo">
           <span class="wiki-logo-text">爪爪和他的朋友们</span>
         </a>
-      </template>
-      <template #end>
         <CdxTextInput
           v-model="searchQuery"
           placeholder="搜索..."
           class="wiki-search"
         />
-      </template>
-    </CdxHeader>
+      </div>
+    </header>
 
     <!-- 标签页 -->
     <CdxTabs v-model:active="activeTab" class="wiki-tabs">
@@ -28,15 +26,19 @@
     <!-- 主内容区 -->
     <div class="wiki-main">
       <!-- 侧边栏 -->
-      <CdxSidebar class="wiki-sidebar">
-        <CdxSidebarItem>
-          <template #label>导航</template>
-          <CdxSidebarItem label="首页" href="/" />
-          <CdxSidebarItem label="日记" href="/diary/" />
-          <CdxSidebarItem label="博客" href="/blog/" />
-          <CdxSidebarItem label="关于我们" href="/about/" />
-        </CdxSidebarItem>
-      </CdxSidebar>
+      <aside class="wiki-sidebar">
+        <nav class="wiki-nav">
+          <div class="wiki-nav-section">
+            <h3>导航</h3>
+            <ul>
+              <li><a href="/">首页</a></li>
+              <li><a href="/diary/">日记</a></li>
+              <li><a href="/blog/">博客</a></li>
+              <li><a href="/about/">关于我们</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
 
       <!-- 内容 -->
       <main class="wiki-content">
@@ -45,10 +47,12 @@
     </div>
 
     <!-- 页脚 -->
-    <CdxFooter class="wiki-footer">
-      <p>本页面最后修订于 2026年3月8日。</p>
-      <p>文字内容遵循 <a href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享 署名-相同方式共享 4.0 协议</a>。</p>
-    </CdxFooter>
+    <footer class="wiki-footer">
+      <div class="wiki-footer-inner">
+        <p>本页面最后修订于 2026年3月8日。</p>
+        <p>文字内容遵循 <a href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享 署名-相同方式共享 4.0 协议</a>。</p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -56,13 +60,9 @@
 import { ref } from 'vue'
 import { Content } from 'vitepress'
 import {
-  CdxHeader,
   CdxTextInput,
   CdxTabs,
-  CdxTab,
-  CdxSidebar,
-  CdxSidebarItem,
-  CdxFooter
+  CdxTab
 } from '@wikimedia/codex'
 
 const searchQuery = ref('')
@@ -70,6 +70,9 @@ const activeTab = ref('article')
 </script>
 
 <style>
+/* Import Codex styles */
+@import '@wikimedia/codex/dist/codex.style.css';
+
 /* Wikipedia Vector Style Variables */
 :root {
   --wp-body-bg: #f6f6f6;
@@ -98,18 +101,56 @@ const activeTab = ref('article')
   --cdx-line-height-base: 1.6;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--wp-text);
+  background-color: var(--wp-body-bg);
+}
+
+a {
+  color: var(--wp-link);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--wp-link-visited);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .wiki-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.wiki-header {
   background-color: var(--wp-body-bg);
+  padding: 0.5rem 1rem;
+}
+
+.wiki-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .wiki-logo {
   font-size: 1.5rem;
   font-weight: normal;
   color: var(--wp-text);
-  text-decoration: none;
 }
 
 .wiki-logo-text {
@@ -123,6 +164,7 @@ const activeTab = ref('article')
 .wiki-tabs {
   border-bottom: 1px solid var(--wp-border);
   background-color: var(--wp-body-bg);
+  padding: 0 1rem;
 }
 
 .wiki-main {
@@ -135,7 +177,29 @@ const activeTab = ref('article')
 
 .wiki-sidebar {
   width: 160px;
+  padding: 1rem 0.5rem;
   flex-shrink: 0;
+}
+
+.wiki-nav-section h3 {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #54595d;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.wiki-nav ul {
+  list-style: none;
+}
+
+.wiki-nav li {
+  margin-bottom: 0.3rem;
+}
+
+.wiki-nav a {
+  font-size: 0.75rem;
+  color: var(--wp-link);
 }
 
 .wiki-content {
@@ -174,10 +238,20 @@ const activeTab = ref('article')
   margin-bottom: 0.5rem;
 }
 
+.wiki-content p {
+  margin-bottom: 0.8rem;
+}
+
 .wiki-footer {
   background-color: var(--wp-body-bg);
   border-top: 1px solid var(--wp-border-gray);
   padding: 1rem;
+  margin-top: auto;
+}
+
+.wiki-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: center;
   font-size: 0.75rem;
   color: #54595d;
