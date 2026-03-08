@@ -70,11 +70,12 @@ const activeTab = ref('article')
 </script>
 
 <style>
-/* Import Codex styles */
+/* Import Codex base styles */
 @import '@wikimedia/codex/dist/codex.style.css';
 
-/* Wikipedia Vector Style Variables */
+/* Wikipedia Vector Style Customizations */
 :root {
+  /* Wikipedia colors */
   --wp-body-bg: #f6f6f6;
   --wp-content-bg: #ffffff;
   --wp-border: #a7d7f9;
@@ -83,11 +84,8 @@ const activeTab = ref('article')
   --wp-link: #0645ad;
   --wp-link-visited: #0b0080;
   --wp-link-hover: #3366cc;
-  --wp-header-bg: #f8f9fa;
-}
-
-/* Override Codex variables to match Wikipedia style */
-:root {
+  
+  /* Override Codex tokens */
   --cdx-background-color-base: var(--wp-body-bg);
   --cdx-background-color-interactive: var(--wp-content-bg);
   --cdx-border-color-base: var(--wp-border-gray);
@@ -96,11 +94,9 @@ const activeTab = ref('article')
   --cdx-color-link: var(--wp-link);
   --cdx-color-link--visited: var(--wp-link-visited);
   --cdx-color-link--hover: var(--wp-link-hover);
-  --cdx-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --cdx-font-size-base: 0.875rem;
-  --cdx-line-height-base: 1.6;
 }
 
+/* Base styles */
 * {
   margin: 0;
   padding: 0;
@@ -128,6 +124,7 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Layout */
 .wiki-container {
   min-height: 100vh;
   display: flex;
