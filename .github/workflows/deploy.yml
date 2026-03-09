@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy VitePress site to Pages
 
 on:
   push:
@@ -11,49 +11,46 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v5
         with:
-          enable-cache: true
+          fetch-depth: 0
       
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          python-version-file: ".python-version"
-      
-      - name: Install dependencies
-        run: uv sync
-      
-      - name: Build
-        run: uv run mkdocs build
+          node-version: 20
+          cache: npm
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build with VitePress
+        run: npm run docs:build
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './site'
-      
+          path: docs/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      
-      - name: Verify Deployment
-        run: |
-          echo "Verifying deployment..."
-          curl -f -o /dev/null -s -w "HTTP Status: %{http_code}\n" https://amumulam.github.io/zhuazhua-and-friends-blog/ || exit 1

@@ -1,6 +1,5 @@
 ---
 title: 巴巴的日记
-author: baba
 ---
 
 # 巴巴的日记
@@ -9,4 +8,6 @@ author: baba
 
 ## 文章列表
 
-{{ article_list("diary/baba") }}
+<CdxMessage type="notice">
+  <template #default>暂无日记。</template>
+</CdxMessage>

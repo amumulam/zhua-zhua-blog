@@ -1,0 +1,950 @@
+Vector 2022 的页面模板结构与设计规范主要分散在 3 个地方，而不是一个单独“设计指南页面”。如果你要找 页面模板框架（layout / template / grid / component），最核心的来源是：
+
+1️⃣ Wikimedia Design System（官方设计规范）
+2️⃣ MediaWiki Vector skin 源码（实际模板与DOM结构）
+3️⃣ Wikimedia Design Blog / Grid system 文档（布局体系）
+
+下面给你具体定位。
+
+1. 官方设计规范（最接近“设计指南”）
+
+Wikimedia 有一套官方设计系统：
+
+Wikimedia Foundation Design System
+
+地址：
+https://design.wikimedia.org/
+
+这里包含：
+
+Layout / UI组件 / Typography / spacing / grid
+
+例如他们定义的统一 grid system：
+
+Desktop：24 columns
+
+Tablet：8 columns
+
+Mobile：4 columns
+
+gutter：24px
+
+margin：16–32px
+
+该 grid 会用于：
+
+Vector 2022（desktop skin）
+
+Minerva（mobile skin）
+
+所以如果你在做 Wikipedia风格 UI / design system reverse engineering，这一套是最权威的。
+
+2. 真正的页面模板（在 MediaWiki Vector 源码）
+
+真正的 页面模板结构（HTML + DOM layout） 在：
+
+MediaWiki Vector skin repo
+
+GitHub / Gerrit：
+
+mediawiki/skins/Vector
+
+关键目录：
+
+skins/Vector/
+ ├─ includes/
+ │   ├─ SkinVector.php
+ │   ├─ Components/
+ │
+ ├─ resources/
+ │   ├─ skins.vector.styles/
+ │   ├─ skins.vector.js
+ │
+ ├─ templates/
+ │   ├─ Skin.mustache
+ │   ├─ Sidebar.mustache
+ │   ├─ Content.mustache
+
+核心模板：
+
+templates/Skin.mustache
+
+里面定义了 Vector 2022 的页面框架：
+
+典型结构是：
+
+body
+ ├─ header
+ │   ├─ logo
+ │   ├─ search
+ │   ├─ user menu
+ │
+ ├─ sidebar
+ │   ├─ navigation
+ │   ├─ languages
+ │
+ ├─ main
+ │   ├─ article header
+ │   ├─ toc
+ │   ├─ article content
+ │
+ ├─ page tools
+ │
+ └─ footer
+3. Vector 2022 页面结构示意
+
+官方也有一个结构图：
+
+
+
+典型区域：
+
+┌──────────────────────────────────┐
+│ Header                           │
+│ logo / search / user menu        │
+├───────────────┬──────────────────┤
+│ Sidebar       │ Main Content     │
+│ navigation    │ article          │
+│ languages     │ TOC              │
+│               │ page tools       │
+├───────────────┴──────────────────┤
+│ Footer                           │
+└──────────────────────────────────┘
+
+Vector 2022 的几个关键变化：
+
+TOC 固定在左侧
+
+sidebar 可折叠
+
+article width 限制
+
+language menu 移到右上角
+
+4. 如果你找的是“页面模板系统”（wiki 模板）
+
+如果你的问题是：
+
+Wikipedia 页面模板框架在哪里定义
+
+那其实是 两个层级
+
+A. UI框架（Vector skin）
+
+定义在：
+
+MediaWiki
+└─ skins
+   └─ Vector
+B. 页面内容模板（wiki template）
+
+例如：
+
+Template:Infobox
+Template:Navbox
+Template:Citation
+
+在：
+
+https://en.wikipedia.org/wiki/Template:XXX
+
+这些模板使用：
+
+MediaWiki Template + Lua + CSS
+5. 如果你想复刻 Wikipedia UI（很多人做）
+
+通常需要这 4 个东西：
+
+Layout
+
+24 column grid
+max content width
+sidebar + toc
+
+Typography
+
+Georgia / serif article font
+system sans UI
+
+Spacing
+
+8px scale
+
+Components
+
+infobox
+toc
+navbox
+references
+
+💡 如果你是想：
+
+做 Wikipedia 风格 UI framework
+
+或 分析 Vector 2022 信息架构
+
+或 做 AI / agent wiki UI
+
+我可以给你整理一份：
+
+Vector 2022 完整 Layout Spec（含 DOM + grid + spacing）
+
+基本就是 Wikipedia UI 的逆向设计文档。
+很多做知识系统 / AI Docs / Notion-like UI 的团队都在抄这一套。
+
+Vector 2022 完整 Layout Spec（含 DOM + grid + spacing）
+
+下面是一份 Vector 2022 的 Layout Spec（逆向整理版）。
+它结合了 MediaWiki Vector 2022 skin、Wikimedia Foundation Design System 与实际 DOM / CSS 实现。
+
+这份 spec 的目标是：
+如果你要复刻 Wikipedia UI / 做 wiki-style product / AI 知识系统界面，可以直接作为布局蓝图。
+
+Vector 2022 Layout Specification
+1. Page Layout Overview
+
+Vector 2022 的核心目标：
+
+提升 阅读宽度控制
+
+固定 目录（TOC）
+
+可折叠 sidebar
+
+更现代的 responsive grid
+
+整体结构：
+
+body
+ ├── header
+ ├── page-container
+ │    ├── sidebar
+ │    ├── content-container
+ │    │     ├── page-header
+ │    │     ├── toc
+ │    │     ├── article
+ │    │     └── page-tools
+ │
+ └── footer
+
+视觉区域：
+
+┌───────────────────────────────────────────┐
+│ Header                                    │
+├───────────────┬───────────────────────────┤
+│ Sidebar       │ Content Area              │
+│ Navigation    │ ┌───────────────────────┐ │
+│ Languages     │ │ Page Header           │ │
+│               │ │ Table of Contents     │ │
+│               │ │ Article Content       │ │
+│               │ │ Page Tools            │ │
+│               │ └───────────────────────┘ │
+├───────────────┴───────────────────────────┤
+│ Footer                                    │
+└───────────────────────────────────────────┘
+2. Grid System
+
+Vector 2022 使用统一 grid（来自 Wikimedia design system）。
+
+Desktop
+columns: 24
+gutter: 24px
+margin: 24–32px
+
+内容区域使用 中心 column span。
+
+| margin | sidebar | gutter | content | margin |
+
+推荐宽度：
+
+区域	宽度
+Sidebar	240px
+Content max width	960px
+TOC	240px
+Tablet
+columns: 8
+gutter: 16px
+
+sidebar collapse → hamburger menu
+
+Mobile
+columns: 4
+gutter: 16px
+
+TOC → dropdown
+
+3. Max Content Width（核心阅读设计）
+
+Vector 2022 的关键变化：
+
+限制文章宽度
+
+max-width: 960px
+
+原因：
+
+提升阅读效率
+
+避免超宽屏阅读困难
+
+典型阅读 line length：
+
+65–75 characters
+4. Spacing System
+
+Vector 使用 8px spacing scale
+
+4px
+8px
+16px
+24px
+32px
+48px
+64px
+
+典型使用：
+
+UI	spacing
+section gap	24px
+heading gap	16px
+paragraph gap	8px
+page margin	32px
+5. Header Layout
+
+Header 高度：
+
+56px
+
+结构：
+
+header
+ ├── logo
+ ├── search
+ ├── page actions
+ └── user menu
+
+布局：
+
+| logo | search bar | actions | avatar |
+
+Search 宽度：
+
+min: 320px
+max: 480px
+6. Sidebar
+
+Sidebar 默认：
+
+width: 240px
+
+内容：
+
+sidebar
+ ├── navigation
+ │    ├── main page
+ │    ├── contents
+ │    ├── current events
+ │
+ ├── interaction
+ │
+ └── languages
+
+行为：
+
+desktop → fixed
+tablet → collapsible
+mobile → drawer
+7. Table of Contents (TOC)
+
+Vector 2022 最大变化之一。
+
+Desktop
+position: sticky
+top: 64px
+width: 240px
+
+位置：
+
+sidebar | TOC | article
+
+TOC结构：
+
+toc
+ ├── section
+ ├── subsection
+ ├── subsection
+
+层级：
+
+H2
+H3
+H4
+8. Article Content
+
+主要容器：
+
+.mw-parser-output
+
+结构：
+
+article
+ ├── infobox
+ ├── paragraphs
+ ├── headings
+ ├── tables
+ ├── images
+ ├── references
+ └── navbox
+
+最大宽度：
+
+960px
+
+图片规则：
+
+max-width: 100%
+9. Typography
+
+Wikipedia typography：
+
+Element	Font
+Article	serif
+UI	system sans
+
+常见设置：
+
+font-size: 16px
+line-height: 1.6
+
+heading scale：
+
+H1 32px
+H2 24px
+H3 20px
+H4 18px
+10. Page Tools
+
+位于文章顶部右侧：
+
+page-tools
+ ├── edit
+ ├── history
+ ├── watch
+ ├── share
+
+布局：
+
+flex row
+gap: 8px
+11. Footer
+
+结构：
+
+footer
+ ├── license
+ ├── links
+ └── Wikimedia info
+
+高度：
+
+80–120px
+12. DOM Structure（简化）
+
+真实 DOM 大致：
+
+body.skin-vector
+ ├── #mw-page-base
+ ├── #mw-head
+ │
+ ├── #content
+ │    ├── #mw-content-text
+ │
+ ├── #mw-panel
+ │
+ └── #footer
+
+Vector 2022 增加：
+
+.vector-page-container
+.vector-page-main
+.vector-toc
+13. Responsive Breakpoints
+
+典型断点：
+
+mobile  < 640px
+tablet  640–1024px
+desktop > 1024px
+wide    > 1440px
+14. Interaction Patterns
+
+重要交互：
+
+Sidebar collapse
+desktop optional
+mobile mandatory
+Sticky TOC
+scroll sync
+active section highlight
+Section edit
+
+每个 heading：
+
+[edit]
+15. Component Ecosystem
+
+Wikipedia UI 核心组件：
+
+Infobox
+Navbox
+Gallery
+Reference list
+Citation
+TOC
+Language switcher
+
+这些都属于 MediaWiki template system。
+
+16. Vector 2022 的设计原则
+
+来自 Wikimedia 设计团队：
+
+核心目标：
+
+1️⃣ 阅读优先
+2️⃣ 降低界面复杂度
+3️⃣ 可扩展布局
+4️⃣ 支持长期知识编辑
+
+如果你做 AI / Docs / 知识系统
+
+Vector 2022 其实是一个非常成熟的 Knowledge UI Pattern。
+
+很多产品借鉴：
+
+Notion
+
+GitBook
+
+Obsidian
+
+核心结构其实是：
+
+Navigation
+TOC
+Content
+Tools
+
+如果你需要，我可以继续给你一份更有价值的东西：
+
+《Wikipedia UI Architecture 深度拆解》
+
+包括：
+
+Vector 2022 完整 CSS token
+
+Infobox design spec
+
+Navbox layout
+
+Citation system
+
+知识型产品 UI 模式
+
+很多 AI Knowledge Base / Agent Docs / RAG UI 都是照这个做的。
+
+《Wikipedia UI Architecture 深度拆解》
+
+下面是一份 《Wikipedia UI Architecture 深度拆解（Vector 2022）》。
+这不是官方文档，而是根据 MediaWiki Vector 2022 skin、Wikimedia Foundation Design System 与真实 DOM/CSS 逆向整理的 UI 架构级说明。
+
+目标：
+如果你要做 知识型产品 / AI 文档系统 / RAG UI / Wiki-style 知识库，可以直接作为 UI 架构蓝图。
+
+Wikipedia UI Architecture 深度拆解
+
+(Vector 2022)
+
+1. UI 架构层级
+
+Wikipedia UI 可以拆成 5 层结构：
+
+Platform Layer
+↓
+Layout Layer
+↓
+Navigation Layer
+↓
+Content Layer
+↓
+Knowledge Component Layer
+
+对应职责：
+
+层级	作用
+Platform	wiki engine / rendering
+Layout	页面结构
+Navigation	导航与信息定位
+Content	文章阅读
+Component	知识模块
+2. Layout Architecture
+
+Vector 2022 的核心布局：
+
+┌─────────────────────────────────────────────┐
+│ Header                                      │
+├───────────────┬─────────────────────────────┤
+│ Navigation    │ Content Workspace           │
+│ Sidebar       │                             │
+│               │ ┌─────────────────────────┐ │
+│               │ │ Page Header             │ │
+│               │ │ TOC                     │ │
+│               │ │ Article                 │ │
+│               │ │ Knowledge Components    │ │
+│               │ └─────────────────────────┘ │
+├───────────────┴─────────────────────────────┤
+│ Footer                                      │
+└─────────────────────────────────────────────┘
+
+核心原则：
+
+navigation 与 content 分离
+
+这是知识系统 UI 的重要模式。
+
+3. DOM Architecture
+
+Vector 2022 关键 DOM：
+
+<body class="skin-vector">
+
+<header class="vector-header"></header>
+
+<div class="vector-page-container">
+
+  <nav class="vector-sidebar"></nav>
+
+  <main class="vector-page-main">
+
+    <header class="mw-page-header"></header>
+
+    <aside class="vector-toc"></aside>
+
+    <article class="mw-parser-output"></article>
+
+  </main>
+
+</div>
+
+<footer class="vector-footer"></footer>
+
+</body>
+
+关键 container：
+
+DOM	作用
+vector-page-container	主布局
+vector-sidebar	导航
+vector-page-main	内容区
+mw-parser-output	wiki 渲染
+4. Grid Architecture
+
+Vector 使用 固定 + 流式 grid。
+
+典型布局：
+
+Sidebar      240px
+TOC          240px
+Content      max 960px
+Margin       auto
+
+视觉结构：
+
+| sidebar | toc | content | whitespace |
+
+宽屏显示：
+
+Sidebar + TOC + Content
+
+窄屏显示：
+
+Sidebar collapsed
+TOC dropdown
+5. Typography Architecture
+
+Wikipedia Typography 优先 长文本阅读。
+
+字体策略：
+
+UI        system sans-serif
+Article   serif
+
+典型配置：
+
+element	size
+body	16px
+line-height	1.6
+H1	32px
+H2	24px
+H3	20px
+
+阅读长度：
+
+65–75 characters per line
+
+这是学术出版常用标准。
+
+6. Navigation Architecture
+
+Wikipedia 有 4 层导航。
+
+Global Navigation
+
+位于 header。
+
+logo
+search
+user
+language
+
+结构：
+
+| logo | search | actions |
+Site Navigation
+
+位于 sidebar。
+
+Main page
+Contents
+Random article
+Current events
+
+特点：
+
+persistent navigation
+Article Navigation
+
+文章内导航：
+
+Table of Contents
+
+结构：
+
+H2
+H3
+H4
+
+行为：
+
+scroll sync
+sticky
+Knowledge Navigation
+
+知识模块之间导航：
+
+Navbox
+Category
+See also
+
+形成知识网络。
+
+7. Knowledge Component System
+
+Wikipedia UI 的核心价值其实是：
+
+Knowledge Components
+
+而不是 layout。
+
+1. Infobox
+
+信息摘要组件。
+
+典型结构：
+
+title
+image
+attributes
+
+示例：
+
+country
+population
+capital
+
+UI 特征：
+
+table layout
+right aligned
+
+作用：
+
+快速知识扫描
+2. Table of Contents
+
+目录组件。
+
+结构：
+
+section
+subsection
+
+设计目标：
+
+information orientation
+3. Citation System
+
+引用系统：
+
+inline citation
+reference list
+
+示例：
+
+[1]
+[2]
+
+底部：
+
+references
+
+这是 Wikipedia 的 可信度架构。
+
+4. Navbox
+
+知识关系模块。
+
+示例：
+
+Countries of Europe
+Presidents of USA
+Physics concepts
+
+UI：
+
+collapsible table
+
+作用：
+
+knowledge graph navigation
+5. Category System
+
+分类系统：
+
+Category:Physics
+Category:History
+
+本质：
+
+taxonomy navigation
+8. Content Rendering Pipeline
+
+Wikipedia 的内容不是普通 HTML。
+
+流程：
+
+Wiki markup
+↓
+MediaWiki parser
+↓
+HTML
+↓
+mw-parser-output
+↓
+Vector CSS
+
+例：
+
+== History ==
+
+变成：
+
+<h2>History</h2>
+9. CSS Token System
+
+Vector 的 CSS token：
+
+--font-size-base: 16px;
+--line-height-base: 1.6;
+
+--spacing-xs: 4px;
+--spacing-sm: 8px;
+--spacing-md: 16px;
+--spacing-lg: 24px;
+
+--content-max-width: 960px;
+
+--sidebar-width: 240px;
+--toc-width: 240px;
+
+颜色：
+
+#202122 text
+#54595d secondary
+#36c link
+10. Interaction Architecture
+
+Wikipedia UI interaction 非常克制。
+
+核心交互：
+
+sticky TOC
+scroll tracking
+section edit
+[edit]
+
+每个标题。
+
+sidebar collapse
+desktop optional
+mobile default
+11. Knowledge UI Pattern
+
+Wikipedia 形成了一种非常稳定的 Knowledge UI Pattern。
+
+结构：
+
+Navigation
+TOC
+Article
+Knowledge Components
+References
+
+这种模式被很多产品继承：
+
+Notion
+
+Obsidian
+
+GitBook
+
+Confluence
+
+12. Wikipedia UI 的真正创新
+
+Vector 2022 的创新不在视觉，而在：
+
+阅读体验优化
+max width
+typography
+信息密度控制
+sidebar collapse
+toc sticky
+知识组件化
+infobox
+navbox
+citation
+13. Wikipedia UI = Knowledge Operating System
+
+从 UI 架构角度：
+
+Wikipedia 是一种：
+
+Knowledge OS
+
+UI 结构：
+
+Navigation
+Knowledge Graph
+Article
+References

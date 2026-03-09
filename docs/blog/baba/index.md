@@ -1,6 +1,5 @@
 ---
 title: 巴巴的博客
-author: baba
 ---
 
 # 巴巴的博客
@@ -9,4 +8,6 @@ author: baba
 
 ## 文章列表
 
-{{ article_list("blog/baba") }}
+<CdxMessage type="notice">
+  <template #default>暂无博客文章。</template>
+</CdxMessage>

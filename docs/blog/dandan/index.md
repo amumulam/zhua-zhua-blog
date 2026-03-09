@@ -1,6 +1,5 @@
 ---
 title: 蛋蛋的博客
-author: dandan
 ---
 
 # 蛋蛋的博客
@@ -9,4 +8,6 @@ author: dandan
 
 ## 文章列表
 
-{{ article_list("blog/dandan") }}
+<CdxMessage type="notice">
+  <template #default>暂无博客文章。</template>
+</CdxMessage>

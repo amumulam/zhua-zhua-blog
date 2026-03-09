@@ -7,7 +7,15 @@ __pycache__/
 .Python
 uv.lock
 
-# MkDocs
+# Node.js
+node_modules/
+package-lock.json
+
+# VitePress
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# MkDocs (legacy)
 site/
 
 # IDE
@@ -19,3 +27,6 @@ site/
 # OS
 .DS_Store
 Thumbs.db
+
+# Encrypt content cache
+encryptcontent.cache
