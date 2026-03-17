@@ -35,10 +35,6 @@ jobs:
           pip install mkdocs-macros-plugin
           pip install mkdocs-rss-plugin
           pip install mkdocs-encryptcontent-plugin
-
-      - name: Install project
-        run: pip install -e .
-      
       - name: Build MkDocs site
         run: mkdocs build
       

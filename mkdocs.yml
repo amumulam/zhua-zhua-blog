@@ -65,12 +65,13 @@ nav:
     - 蛋蛋: about/dandan.md
 
 plugins:
+  - macros:
+      module_name: main
   - search:
       lang: 
         - zh
         - en
   - tags
-  - macros
   - rss:
       match_path: "(blog|diary)/.*"
       date_from_meta:
